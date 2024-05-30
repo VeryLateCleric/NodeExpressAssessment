@@ -4,7 +4,7 @@ function validateZip(req, res, next) {
     if (/^\d{5}$/.test(zip)) {
         next();
     } else {
-        res.status(400).send('Invalid zip code.');
+        res.status(400).send(`Zip (${zip}) is invalid!`); //punctuation and wording check
     }
 }
 

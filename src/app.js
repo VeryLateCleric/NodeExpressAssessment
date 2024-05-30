@@ -40,7 +40,7 @@ app.get('/zoos/all', (req, res) => {
 
 // Error handler middleware
 app.use((req, res, next) => {
-    res.status(404).send('That route could not be found');
+    res.status(404).send('That route could not be found!'); //punctuation check
 });
 
 // Not Found error handler middleware
