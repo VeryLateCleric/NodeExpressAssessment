@@ -5,36 +5,53 @@ const getZoos = require('./utils/getZoos');
 const app = express();
 
 app.get('/check/:zip', validateZip, (req, res) => {
-    const zip = req.params.zip;
-    const zoos = getZoos(zip);
+    try {    
+        const zip = req.params.zip;
+        const zoos = getZoos(zip);
 
-    if (zoos.length > 0) {
-        res.send(`${zip} exists in our records.`);
-    } else {
-        res.send(`${zip} does not exist in our records.`);
+        if (zoos !== undefined) {
+            if (zoos.length > 0) {
+            res.send(`${zip} exists in our records.`);
+            } else {
+            res.send(`${zip} does not exist in our records.`);
+            }
+        } else {
+            res.send(`${zip} does not exist in our records.`);
+        }
+    } catch(error) {
+        next(error);
     }
 });
 
-app.get('/zooz/:zip', validateZip, (req,res) => {
-    const zip = req.params.zip;
-    const zoos = getZoos(zip);
+app.get('/zoos/:zip', validateZip, (req,res) => {
+    try {
+        const zip = req.params.zip;
+        const zoos = getZoos(zip);
 
-    if (zoos.length > 0) {
-        res.json(zoos);
-    } else {
-        res.send(`${zip} has no zoos.`)
+
+            if (zoos.length > 0) {
+                res.json(zoos);
+            } else {
+                res.send(`${zip} has no zoos.`)
+            }
+    } catch {
+
     }
-});
+    });
 
 app.get('/zoos/all', (req, res) => {
-    const { admin } = req.query;
+    try {
+        const { admin } = req.query;
 
-    if (admin === 'true') {
-        const allZoos = getZoos();
-        const allZoosList = Object.values(allZoos).flat().join('; ');
-        res.send(`All zoos: ${allZoosList}`);
-    } else {
-        res.send('You do not have access to that route.')
+        if (admin === 'true') {
+            const allZoos = getZoos();
+            const allZoosList = Object.values(allZoos).flat().join('; ');
+            res.send(`All zoos: ${allZoosList}`);
+        } else {
+            res.send('You do not have access to that route.')
+        }
+    } catch {
+        
     }
 });
 
