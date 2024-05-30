@@ -26,6 +26,18 @@ app.get('/zooz/:zip', validateZip, (req,res) => {
     }
 });
 
+app.get('/zoos/all', (req, res) => {
+    const { admin } = req.query;
+
+    if (admin === 'true') {
+        const allZoos = getZoos();
+        const allZoosList = Object.values(allZoos).flat().join('; ');
+        res.send(`All zoos: ${allZoosList}`);
+    } else {
+        res.send('You do not have access to that route.')
+    }
+});
+
 // Error handler middleware
 app.use((req, res, next) => {
     res.status(404).send('That route could not be found');
