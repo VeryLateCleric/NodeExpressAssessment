@@ -5,7 +5,25 @@ const getZoos = require('./utils/getZoos');
 const app = express();
 
 app.get('/check/:zip', validateZip, (req, res) => {
-    // add if else for zoo exists
+    const zip = req.params.zip;
+    const zoos = getZoos(zip);
+
+    if (zoos.length > 0) {
+        res.send(`${zip} exists in our records.`);
+    } else {
+        res.send(`${zip} does not exist in our records.`);
+    }
+});
+
+app.get('/zooz/:zip', validateZip, (req,res) => {
+    const zip = req.params.zip;
+    const zoos = getZoos(zip);
+
+    if (zoos.length > 0) {
+        res.json(zoos);
+    } else {
+        res.send(`${zip} has no zoos.`)
+    }
 });
 
 // Error handler middleware
